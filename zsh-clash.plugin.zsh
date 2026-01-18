@@ -91,7 +91,7 @@ _clash_debug() {
 _clash_generate() {
     local description="$1"
     local output=""
-    local cmd_args=("-p")
+    local cmd_args=("-p" "--disable-slash-commands" "--no-session-persistence" "--tools" "")
 
     # Add model if specified
     if [[ -n "$CLASH_MODEL" ]]; then

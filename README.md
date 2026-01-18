@@ -24,7 +24,11 @@ find . -size +1M -exec ls -lh {} \;
 ### oh-my-zsh
 
 ```bash
+# 신규 설치
 git clone https://github.com/leejaedus/zsh-clash ~/.oh-my-zsh/custom/plugins/zsh-clash
+
+# 업데이트 (이미 설치된 경우)
+git -C ~/.oh-my-zsh/custom/plugins/zsh-clash pull
 ```
 
 `~/.zshrc`의 plugins에 추가:
@@ -37,8 +41,12 @@ perl -i -pe 's/plugins=\(/plugins=(zsh-clash /' ~/.zshrc
 ### 수동 설치
 
 ```bash
+# 신규 설치
 git clone https://github.com/leejaedus/zsh-clash ~/.zsh-clash
-echo 'source ~/.zsh-clash/clash.plugin.zsh' >> ~/.zshrc
+echo 'source ~/.zsh-clash/zsh-clash.plugin.zsh' >> ~/.zshrc
+
+# 업데이트 (이미 설치된 경우)
+git -C ~/.zsh-clash pull
 ```
 
 ### 적용
