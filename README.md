@@ -24,7 +24,7 @@ find . -size +1M -exec ls -lh {} \;
 ### oh-my-zsh
 
 ```bash
-git clone https://github.com/your-username/zsh-clash ~/.oh-my-zsh/custom/plugins/zsh-clash
+git clone https://github.com/leejaedus/zsh-clash ~/.oh-my-zsh/custom/plugins/zsh-clash
 ```
 
 `~/.zshrc`:
@@ -36,7 +36,7 @@ plugins=(... zsh-clash)
 ### 수동 설치
 
 ```bash
-git clone https://github.com/your-username/zsh-clash ~/.zsh-clash
+git clone https://github.com/leejaedus/zsh-clash ~/.zsh-clash
 echo 'source ~/.zsh-clash/clash.plugin.zsh' >> ~/.zshrc
 ```
 
