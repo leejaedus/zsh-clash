@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
-# zsh-clash - 자연어를 쉘 명령어로 변환하는 zsh 플러그인
-# Claude Code CLI 기반
+# zsh-clash - A zsh plugin that converts natural language to shell commands
+# Powered by Claude Code CLI
 #
-# 사용법: "# 설명" 입력 후 Enter
-# 예시: # 1MB 이상 파일 찾기
-#       -> find . -size +1M -exec ls -lh {} \;
+# Usage: Type "# description" and press Enter
+# Example: # find files larger than 1MB
+#          -> find . -size +1M -exec ls -lh {} \;
 
 # Configuration variables
 : ${CLASH_DISABLED:=0}
@@ -15,16 +15,16 @@
 
 # Thinking verbs for loading animation
 _clash_verbs=(
-    "생각하는 중"
-    "명령어 만드는 중"
-    "계산하는 중"
-    "고민하는 중"
-    "처리하는 중"
-    "분석하는 중"
-    "해석하는 중"
-    "조합하는 중"
-    "추론하는 중"
-    "변환하는 중"
+    "Thinking"
+    "Generating"
+    "Computing"
+    "Processing"
+    "Analyzing"
+    "Interpreting"
+    "Composing"
+    "Reasoning"
+    "Converting"
+    "Crafting"
 )
 
 # Check if Claude CLI is available

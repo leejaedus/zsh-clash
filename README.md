@@ -1,22 +1,22 @@
 # zsh-clash
 
-자연어를 쉘 명령어로 변환하는 zsh 플러그인. Claude Code CLI 기반.
+A zsh plugin that converts natural language to shell commands. Powered by Claude Code CLI.
 
-## 사용법
+## Usage
 
 ```bash
-# 1MB 이상 파일 찾기
+# find files larger than 1MB
 ```
 
-Enter를 누르면:
+Press Enter:
 
 ```bash
 find . -size +1M -exec ls -lh {} \;
 ```
 
-## 설치
+## Installation
 
-### 요구사항
+### Requirements
 
 - zsh
 - [Claude Code CLI](https://claude.ai/download)
@@ -24,55 +24,55 @@ find . -size +1M -exec ls -lh {} \;
 ### oh-my-zsh
 
 ```bash
-# 신규 설치
+# Fresh install
 git clone https://github.com/leejaedus/zsh-clash ~/.oh-my-zsh/custom/plugins/zsh-clash
 
-# 업데이트 (이미 설치된 경우)
+# Update (if already installed)
 git -C ~/.oh-my-zsh/custom/plugins/zsh-clash pull
 ```
 
-`~/.zshrc`의 plugins에 추가:
+Add to plugins in `~/.zshrc`:
 
 ```bash
-# 자동 추가 (macOS/Linux 호환)
+# Auto-add (macOS/Linux compatible)
 perl -i -pe 's/plugins=\(/plugins=(zsh-clash /' ~/.zshrc
 ```
 
-### 수동 설치
+### Manual Installation
 
 ```bash
-# 신규 설치
+# Fresh install
 git clone https://github.com/leejaedus/zsh-clash ~/.zsh-clash
 echo 'source ~/.zsh-clash/zsh-clash.plugin.zsh' >> ~/.zshrc
 
-# 업데이트 (이미 설치된 경우)
+# Update (if already installed)
 git -C ~/.zsh-clash pull
 ```
 
-### 적용
+### Apply Changes
 
 ```bash
 source ~/.zshrc
 ```
 
-## 설정
+## Configuration
 
-`~/.zshrc`에 추가:
+Add to `~/.zshrc`:
 
 ```bash
-# 모델 변경 (기본: haiku)
+# Change model (default: haiku)
 export CLASH_MODEL="sonnet"
 
-# 비활성화
+# Disable plugin
 export CLASH_DISABLED=1
 
-# 스피너 끄기
+# Disable spinner
 export CLASH_FANCY_LOADING=0
 
-# prefix 변경 (기본: #)
+# Change prefix (default: #)
 export CLASH_PREFIX="?"
 
-# 디버그 모드
+# Debug mode
 export CLASH_DEBUG=1
 ```
 
