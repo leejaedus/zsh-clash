@@ -27,10 +27,11 @@ find . -size +1M -exec ls -lh {} \;
 git clone https://github.com/leejaedus/zsh-clash ~/.oh-my-zsh/custom/plugins/zsh-clash
 ```
 
-`~/.zshrc`:
+`~/.zshrc`의 plugins에 추가:
 
 ```bash
-plugins=(... zsh-clash)
+# 자동 추가 (macOS/Linux 호환)
+perl -i -pe 's/plugins=\(/plugins=(zsh-clash /' ~/.zshrc
 ```
 
 ### 수동 설치
