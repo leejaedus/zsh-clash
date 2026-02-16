@@ -110,6 +110,9 @@ The command should work in zsh on macOS/Linux."
     _clash_debug "Running: claude ${cmd_args[*]}"
 
     # Run Claude CLI
+    local tmpfile
+    tmpfile=$(mktemp)
+
     if [[ $CLASH_FANCY_LOADING -eq 1 ]]; then
         print > /dev/tty
 
@@ -117,14 +120,17 @@ The command should work in zsh on macOS/Linux."
         _clash_spinner &
         local spinner_pid=$!
 
-        output=$(claude "${cmd_args[@]}" 2>/dev/null)
+        claude "${cmd_args[@]}" > "$tmpfile" 2>/dev/null
         claude_status=$?
 
         _clash_stop_spinner $spinner_pid
     else
-        output=$(claude "${cmd_args[@]}" 2>/dev/null)
+        claude "${cmd_args[@]}" > "$tmpfile" 2>/dev/null
         claude_status=$?
     fi
+
+    output="$(<"$tmpfile")"
+    rm -f "$tmpfile"
 
     if [[ $claude_status -ne 0 ]]; then
         return $claude_status
