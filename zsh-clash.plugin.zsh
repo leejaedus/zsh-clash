@@ -91,6 +91,7 @@ _clash_debug() {
 _clash_generate() {
     local description="$1"
     local output=""
+    REPLY=""
     local claude_status=0
     local cmd_args=("-p" "--disable-slash-commands" "--no-session-persistence" "--tools" "")
 
@@ -134,7 +135,8 @@ The command should work in zsh on macOS/Linux."
 
     _clash_debug "Generated: $output"
 
-    echo "$output"
+    REPLY="$output"
+    return 0
 }
 
 # Custom accept-line widget
@@ -177,9 +179,9 @@ _clash_accept_line() {
             print -s "$buffer"
 
             # Generate command (spinner runs here)
-            local generated_cmd
-            generated_cmd=$(_clash_generate "$description")
+            _clash_generate "$description"
             local generate_status=$?
+            local generated_cmd="$REPLY"
 
             if [[ $generate_status -eq 130 ]]; then
                 zle reset-prompt
