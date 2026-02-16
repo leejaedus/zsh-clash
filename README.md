@@ -2,6 +2,14 @@
 
 A zsh plugin that converts natural language to shell commands. Powered by Claude Code CLI.
 
+## LLM Quick Context
+
+- Runtime: zsh widget (`accept-line`) in `zsh-clash.plugin.zsh`
+- Trigger: input starts with `#` (default)
+- Core contract: `Ctrl+C` must cancel in-flight command generation
+- Primary install path: `~/.oh-my-zsh/custom/plugins/zsh-clash`
+- Verification priority: interactive shell behavior over static checks
+
 ## Usage
 
 ```bash
@@ -54,6 +62,30 @@ git -C ~/.zsh-clash pull
 ```bash
 source ~/.zshrc
 ```
+
+## Developer Workflow (LLM-Friendly)
+
+1. Edit `zsh-clash.plugin.zsh`
+2. Run syntax check:
+
+```bash
+zsh -n zsh-clash.plugin.zsh
+```
+
+3. Verify interactive behavior in real shell (tmux recommended for reproducibility)
+4. If using oh-my-zsh install path, verify user update flow:
+
+```bash
+git -C ~/.oh-my-zsh/custom/plugins/zsh-clash pull
+source ~/.zshrc
+```
+
+## Interrupt Verification Checklist
+
+- Start generation with a `# ...` prompt
+- Press `Ctrl+C` while spinner is active
+- Expected: immediate prompt recovery and generation process canceled
+- Repeat once with `CLASH_FANCY_LOADING=0` to validate no-spinner path
 
 ## Configuration
 
