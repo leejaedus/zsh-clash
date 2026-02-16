@@ -111,22 +111,42 @@ The command should work in zsh on macOS/Linux."
 
     # Run Claude CLI
     local tmpfile
+    local claude_pid=""
+    local spinner_pid=""
+    local interrupted=0
     tmpfile=$(mktemp)
+
+    setopt local_options local_traps no_notify no_monitor
+    trap 'interrupted=1; if [[ -n "$claude_pid" ]] && kill -0 "$claude_pid" 2>/dev/null; then kill -INT "$claude_pid" 2>/dev/null; fi' INT
 
     if [[ $CLASH_FANCY_LOADING -eq 1 ]]; then
         print > /dev/tty
-
-        setopt local_options no_notify no_monitor
         _clash_spinner &
-        local spinner_pid=$!
+        spinner_pid=$!
+    fi
 
-        claude "${cmd_args[@]}" > "$tmpfile" 2>/dev/null
-        claude_status=$?
+    claude "${cmd_args[@]}" > "$tmpfile" 2>/dev/null &
+    claude_pid=$!
 
+    while kill -0 "$claude_pid" 2>/dev/null; do
+        if [[ $interrupted -eq 1 ]]; then
+            kill -TERM "$claude_pid" 2>/dev/null
+            sleep 0.2
+            kill -KILL "$claude_pid" 2>/dev/null
+        fi
+        sleep 0.05
+    done
+
+    wait "$claude_pid" 2>/dev/null
+    claude_status=$?
+    trap - INT
+
+    if [[ -n "$spinner_pid" ]]; then
         _clash_stop_spinner $spinner_pid
-    else
-        claude "${cmd_args[@]}" > "$tmpfile" 2>/dev/null
-        claude_status=$?
+    fi
+
+    if [[ $interrupted -eq 1 ]]; then
+        claude_status=130
     fi
 
     output="$(<"$tmpfile")"
