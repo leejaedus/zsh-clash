@@ -91,6 +91,7 @@ _clash_debug() {
 _clash_generate() {
     local description="$1"
     local output=""
+    local claude_status=0
     local cmd_args=("-p" "--disable-slash-commands" "--no-session-persistence" "--tools" "")
 
     # Add model if specified
@@ -109,23 +110,23 @@ The command should work in zsh on macOS/Linux."
 
     # Run Claude CLI
     if [[ $CLASH_FANCY_LOADING -eq 1 ]]; then
-        local tmpfile=$(mktemp)
         print > /dev/tty
 
         setopt local_options no_notify no_monitor
         _clash_spinner &
         local spinner_pid=$!
-        disown $spinner_pid 2>/dev/null
 
-        claude "${cmd_args[@]}" > "$tmpfile" 2>/dev/null &
-        local claude_pid=$!
-        wait $claude_pid
+        output=$(claude "${cmd_args[@]}" 2>/dev/null)
+        claude_status=$?
 
         _clash_stop_spinner $spinner_pid
-        output=$(cat "$tmpfile")
-        rm -f "$tmpfile"
     else
         output=$(claude "${cmd_args[@]}" 2>/dev/null)
+        claude_status=$?
+    fi
+
+    if [[ $claude_status -ne 0 ]]; then
+        return $claude_status
     fi
 
     # Sanitize output
@@ -176,7 +177,14 @@ _clash_accept_line() {
             print -s "$buffer"
 
             # Generate command (spinner runs here)
-            local generated_cmd=$(_clash_generate "$description")
+            local generated_cmd
+            generated_cmd=$(_clash_generate "$description")
+            local generate_status=$?
+
+            if [[ $generate_status -eq 130 ]]; then
+                zle reset-prompt
+                return
+            fi
 
             if [[ -n "$generated_cmd" ]]; then
                 # Set buffer with generated command
