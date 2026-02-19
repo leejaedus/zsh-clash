@@ -107,7 +107,9 @@ The command should work in zsh on macOS/Linux."
 
     cmd_args+=("$prompt")
 
-    _clash_debug "Running: claude ${cmd_args[*]}"
+    if [[ $CLASH_DEBUG -eq 1 ]]; then
+        echo "[DEBUG] claude $(printf '%q ' "${cmd_args[@]}")" >&2
+    fi
 
     # Run Claude CLI
     local tmpfile
