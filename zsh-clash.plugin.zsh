@@ -93,7 +93,7 @@ _clash_generate() {
     local output=""
     REPLY=""
     local claude_status=0
-    local cmd_args=("-p" "--disable-slash-commands" "--no-session-persistence" "--tools" "", "--setting-sources", "")
+    local cmd_args=("-p" "--disable-slash-commands" "--no-session-persistence" "--tools" "" "--setting-sources" "")
 
     # Add model if specified
     if [[ -n "$CLASH_MODEL" ]]; then
